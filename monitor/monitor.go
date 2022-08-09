@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -18,48 +16,6 @@ func StartMonitor() {
 	for _, site := range monitoredSites {
 		resp, _ := http.Get(site)
 		verifyStatusAndWriteLogs(site, resp.StatusCode)
-	}
-}
-
-func GetUser() {
-	fmt.Println("Monitoring...")
-
-	site := "https://62bd9608bac21839b606a9cc.mockapi.io/apitest/v1/users"
-	resp, err := http.Get(site)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	respData, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(string(respData))
-}
-
-func MapDeleteTest() {
-	fmt.Println("Testing...")
-	resp, _ := http.Get("https://62bd9608bac21839b606a9cc.mockapi.io/apitest/v1/users")
-
-	for k, v := range resp.Header {
-		fmt.Printf("[%s]:-->%s ", k, v)
-		fmt.Println("")
-	}
-
-	resp.Header.Del("Date")
-
-	fmt.Println("")
-	fmt.Println("")
-	fmt.Println("Printing new map...")
-	fmt.Println("")
-
-	for k, v := range resp.Header {
-		fmt.Printf("[%s]:-->%s ", k, v)
-		fmt.Println("")
 	}
 }
 
